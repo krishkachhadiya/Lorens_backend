@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
   metaTitle:       { type: String, default: '' },
   metaDescription: { type: String, default: '' },
   category: {
-    type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null  
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }], default: []
   },
   subcategory: {
     type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null

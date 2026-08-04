@@ -135,8 +135,38 @@ const { success } = require('../utils/ApiResponse');
 
 const cleanMeta = (str) => str?.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() || '';
 
+// Normalize an incoming `category` payload (which may arrive as a single id,
+// an array of ids, null, or undefined) into a clean array of ids for storage
+// against the Product.category array field.
+const normalizeCategoryArray = (category) => {
+  if (Array.isArray(category)) {
+    return category.filter(Boolean);
+  }
+  if (category) {
+    return [category];
+  }
+  return [];
+};
+
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find()
+  // Optional category filtering: /api/products?category=<id>
+  // or /api/products?category=<id1>,<id2> for multiple category ids.
+  // Because `category` is now an array field, matching against it uses
+  // MongoDB's $in operator so a product matches if ANY of its assigned
+  // categories is included in the requested set.
+  const filter = {};
+  if (req.query.category) {
+    const categoryIds = String(req.query.category)
+      .split(',')
+      .map((id) => id.trim())
+      .filter(Boolean);
+
+    if (categoryIds.length) {
+      filter.category = { $in: categoryIds };
+    }
+  }
+
+  const products = await Product.find(filter)
     .populate('category', 'title slug')
     .populate('subcategory', 'title slug')
     .sort({ createdAt: -1 });
@@ -198,7 +228,7 @@ const createProduct = asyncHandler(async (req, res) => {
     description: description || '',
     metaTitle: cleanMeta(metaTitle),
     metaDescription: cleanMeta(metaDescription),
-    category: category || null,
+    category: normalizeCategoryArray(category),
     subcategory: subcategory || null,
     status: status || 'active',
     images: images || [], // 🌟 Safely map the tracking string array here
@@ -243,7 +273,7 @@ const updateProduct = asyncHandler(async (req, res) => {
       description, 
       metaTitle: cleanMeta(metaTitle),
       metaDescription: cleanMeta(metaDescription),
-      category: category || null, 
+      category: normalizeCategoryArray(category), 
       subcategory: subcategory || null,
       status, 
       images, 

@@ -2,23 +2,23 @@
 // 1. CONFIGURATION
 // ========================================================
 const BASE_URL = 'http://localhost:5000/api'; 
-const AUTH_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMzEyOTljNGJiMDVlMTM2ZjAwMjc2MCIsImlhdCI6MTc4NDYxMDM5MCwiZXhwIjoxNzg1MjE1MTkwfQ.P4NEYQ8-ba0BRSye5rOMTPxcU4Cc8Kzx9w-6j_hiUKc'; // Replace with your actual admin JWT token
+const AUTH_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMzEyOTljNGJiMDVlMTM2ZjAwMjc2MCIsImlhdCI6MTc4Mjk5NDY2NywiZXhwIjoxNzgzNTk5NDY3fQ.aV3TxSv1L4YNTteq54KJye9Lw6RED_SBVabm-WqUJdc'; // Replace with your actual admin JWT token
 
 // ========================================================
 // 2. INPUT PARAMETERS (Matches your pre-uploaded files)
 // ========================================================
 const INPUT = {
-  collectionName: "Shower Arm",           // Prefix for titles (e.g., "Falcon FC-401")
-  prefixCode: "SAC",                  // The system product code prefix
-  startNumber: 11006,                  // The first item sequence number
-  totalCount: 8,                    // Number of items to generate entries for
+  collectionName: "Crystal Gold Collection",           // Prefix for titles (e.g., "Falcon FC-401")
+  prefixCode: "CG",                  // The system product code prefix
+  startNumber: 501,                  // The first item sequence number
+  totalCount: 10,                    // Number of items to generate entries for
   
   // Database Targets
-  categoryId: "6a60913e90ddb4d01ccbd907",         // Replace with your MongoDB ObjectId for this Category
+  categoryId: "6a47bee498e8bfeaa105584e",         // Replace with your MongoDB ObjectId for this Category
   subcategory: null,
   
   // Pre-existing Folder Subdirectory
-  folderParam: "Shower-Arm",  // The subfolder where images exist
+  folderParam: "Crystal-Gold-Collection",  // The subfolder where images exist
 };
 
 // ========================================================
@@ -40,7 +40,7 @@ function generateProductList(config) {
       title: titleString,
       slug: titleString.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
       description: `<p>High-quality entry from the ${config.collectionName} collection line.</p>`,
-      category: config.categoryId,
+      category: [config.categoryId],
       subcategory: config.subcategory,
       status: "active",
       images: [savedImagePath], // Injects your pre-existing asset paths directly
