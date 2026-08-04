@@ -12,7 +12,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://lotas-website-frontend.vercel.app",
+      "https://lorens-frontend.vercel.app",
     ],
     credentials: true,
   })
