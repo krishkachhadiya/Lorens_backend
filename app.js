@@ -13,6 +13,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://lorens-frontend.vercel.app",
+      "https://lorens-frontend-gold.vercel.app",
     ],
     credentials: true,
   })
