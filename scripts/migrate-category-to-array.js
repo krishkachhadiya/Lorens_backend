@@ -18,6 +18,7 @@ const mongoose = require('mongoose');
 
 async function migrateCategoryToArray() {
   await mongoose.connect(process.env.MONGODB_URI);
+  console.log("MONGODB_URI =", process.env.MONGODB_URI);
   console.log('✅ Connected to MongoDB\n');
 
   // Use the raw driver collection so we can read pre-migration shapes

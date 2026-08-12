@@ -33,6 +33,7 @@ app.use('/api/admins',     require('./routes/admin.routes'));
 app.use('/api/roles',      require('./routes/role.routes'));
 app.use('/api/categories', require('./routes/category.routes'));
 app.use('/api/products',   require('./routes/product.routes'));
+app.use('/api/events',          require('./routes/events.routes')); // 🌟 Fixed closing parenthesis and typo here!
 app.use('/api/cms',        require('./routes/cms.routes'));
 app.use('/api/settings',   require('./routes/settings.routes'));
 app.use('/api/inquiries',  require('./routes/inquiry.routes'));
